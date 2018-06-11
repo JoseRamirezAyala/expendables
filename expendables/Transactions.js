@@ -28,6 +28,7 @@ export default class Transactions extends React.Component {
     }
     render() {
         return (
+
             <TabView
                 navigationState={this.state}
                 renderScene={SceneMap({

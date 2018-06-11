@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert,SafeAreaView } from 'react-native';
 import firebase from 'firebase';
 import Login from "./Login";
 import Register from "./Register";
 import Home from './Home';
+
 var config = {
   apiKey: "AIzaSyAAqOZ2dmwB9OIU49xwTYpRpqmVQFQCUNw",
   authDomain: "expenses-1308a.firebaseapp.com",
@@ -107,17 +108,23 @@ export default class Main extends React.Component {
   }
   loggedIn() {
     return (
+      <SafeAreaView style={styles.safeArea}>
       <Home />
+      </SafeAreaView>
     );
   }
   registerMenu() {
     return (
+      <SafeAreaView style={styles.safeArea}>
       <Register cancelRegister={this.cancelRegister} normalRegister={this.normalRegister} />
+    </SafeAreaView>
     )
   }
   notLoggedIn() {
     return (
+      <SafeAreaView style={styles.safeArea} >
       <Login goRegister={this.goToRegister} login={this.login} />
+      </SafeAreaView>
     );
 
   }
@@ -142,4 +149,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ddd'
+  }
 });

@@ -1,5 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
+<<<<<<< refs/remotes/origin/joche-development
   "packagerPid": 3884
+=======
+  "packagerPid": 19070
+>>>>>>> Added safeareaview
 }
