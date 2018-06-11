@@ -7,10 +7,11 @@ export default class TransactionModal extends React.Component {
         super(props)
         this.state = {
             modalVisible: true,
-            checked : false,
-            checked2 : false
+            checked: false,
+            checked2: false
         };
         this.setModalVisible = this.setModalVisible.bind(this);
+        
     }
 
 
@@ -26,22 +27,20 @@ export default class TransactionModal extends React.Component {
                 onRequestClose={() => {
                     alert('Modal has been closed.');
                 }}>
-                <View style={{ marginTop: 22 }}>
+                <View style={{ marginTop: 200 }}>
                     <View>
                         <Text>Add Transaction </Text>
                         <TextInput placeholder="Enter Date" />
-                        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}> 
-                            <CheckBox
-                                title='Click Here'
-                                checked={this.state.checked}
-                            />
-                            <CheckBox
-                                title='Click Here'
-                                checked={this.state.checked2}
-                            />
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <CheckBox 
+                            title='Click Here'
+                            checked={this.state.checked}
+                        />
+                        <CheckBox
+                            title='Click Here'
+                            checked={this.state.checked2}
+                        />
                         </View>
-                        <TextInput placeholder="Enter Date" />
-                        <TextInput placeholder="Enter Date" />
                         <Button title="Ok" onPress={this.setModalVisible} />
                         <Button title="Cancel" onPress={this.setModalVisible} />
                     </View>
