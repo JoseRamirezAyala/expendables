@@ -4,8 +4,8 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import Tabbar from 'react-native-tabbar-bottom';
 import Transactions from './Transactions';
 export default class Home extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             page: "Transactions",
         }

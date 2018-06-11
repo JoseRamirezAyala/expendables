@@ -15,15 +15,17 @@ const goMonthly = () => (
 );
 
 export default class Transactions extends React.Component {
-    state = {
-        index: 0,
-        routes: [
-            { key: 'first', title: 'Daily' },
-            { key: 'second', title: 'Weekly' },
-            { key: 'third', title: 'Monthly' },
-        ],
-    };
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            index: 0,
+            routes: [
+                { key: 'first', title: 'Daily' },
+                { key: 'second', title: 'Weekly' },
+                { key: 'third', title: 'Monthly' },
+            ],
+        }
+    }
     render() {
         return (
             <TabView

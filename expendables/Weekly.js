@@ -6,16 +6,37 @@ export default class Weekly extends React.Component {
         super(props)
         this.state =
             {
-
+                modalVisible: false
             }
+        this.addTransaction = this.addTransaction.bind(this);
+        this.setModalInvisible = this.setModalInvisible.bind(this);
+
     }
-    render() {
+    setModalInvisible() {
+        this.setState({ modalVisible: false })
+    }
+    addTransaction() {
+        this.setState({ modalVisible: true });
+    }
+    normal() {
         return (
             <View>
-                <Button title="+" />
+                <Button onPress={this.addTransaction} title="+" />
                 <Text>Weekly</Text>
             </View>
         )
+    }
+    showModal() {
+        return (
+            <TransactionModal setModalInvisible={this.setModalInvisible} />
+        )
+    }
+    render() {
+        if (this.state.modalVisible) {
+            return this.showModal();
+        } else {
+            return this.normal();
+        }
     }
 
 
