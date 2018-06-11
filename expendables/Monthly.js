@@ -12,6 +12,7 @@ export default class Monthly extends React.Component {
     render() {
         return (
             <View>
+                 <Button title="+" />
                 <Text>Monthly</Text>
             </View>
                 )

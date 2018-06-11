@@ -21,9 +21,11 @@
   "dependencies": {
     "expo": "^27.0.1",
     "firebase": "^5.0.4",
+    "native-base": "^2.5.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-firebase": "^4.2.0",
-    "react-native-tab-view": "^1.0.2"
+    "react-native-tab-view": "^1.0.2",
+    "react-native-tabbar-bottom": "^1.0.4"
   }
 }

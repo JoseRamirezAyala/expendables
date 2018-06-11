@@ -12,10 +12,11 @@ export default class Daily extends React.Component {
     render() {
         return (
             <View>
+                <Button title="+" />
                 <Text>Daily</Text>
             </View>
-                )
-            }
-            
-                    
+        )
+    }
+
+
 }
