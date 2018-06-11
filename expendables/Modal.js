@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View, TextInput, Button } from 'react-native';
+import { CheckBox } from 'react-native-elements'
 
 export default class TransactionModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             modalVisible: true,
+            checked : false,
+            checked2 : false
         };
         this.setModalVisible = this.setModalVisible.bind(this);
     }
@@ -27,6 +30,16 @@ export default class TransactionModal extends React.Component {
                     <View>
                         <Text>Add Transaction </Text>
                         <TextInput placeholder="Enter Date" />
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}> 
+                            <CheckBox
+                                title='Click Here'
+                                checked={this.state.checked}
+                            />
+                            <CheckBox
+                                title='Click Here'
+                                checked={this.state.checked2}
+                            />
+                        </View>
                         <TextInput placeholder="Enter Date" />
                         <TextInput placeholder="Enter Date" />
                         <Button title="Ok" onPress={this.setModalVisible} />

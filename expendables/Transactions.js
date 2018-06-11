@@ -37,7 +37,7 @@ export default class Transactions extends React.Component {
                     third: goMonthly,
                 })}
                 onIndexChange={index => this.setState({ index })}
-                initialLayout={{ width: Dimensions.get('window').width }}
+                initialLayout={{ height:0, width: Dimensions.get('window').width }}
             />
         );
     }
