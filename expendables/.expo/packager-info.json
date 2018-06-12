@@ -1,5 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19002,
+<<<<<<< refs/remotes/origin/joche-development
   "packagerPid": 8464
+=======
+  "packagerPid": 42719
+>>>>>>> UI updates, Action Button.
 }
