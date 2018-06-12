@@ -35,19 +35,40 @@ export default class Login extends React.Component {
                         alignItems: 'center',
                     }}>
                     <Image source={require('./user.png')} />
-                    <TextInput onChangeText={(txtMail) => this.setState({ txtMail })} style={{ width: '100%' }} placeholder="User" />
-                    <TextInput onChangeText={(txtPassword) => this.setState({ txtPassword })} style={{ width: '100%' }} placeholder="password" />
-                    <Button title="Login" onPress={this.login} />
+                    <TextInput onChangeText={(txtMail) => this.setState({ txtMail })} style={styles.input} placeholder="User" />
+                    <TextInput onChangeText={(txtPassword) => this.setState({ txtPassword })} style={styles.input} secureTextEntry={true} placeholder="password" />
+                    <Button title="Log-In" onPress={this.login} />
+                    <Button title="Don't have an account yet? Click here to create one" onPress={this.goToRegister} />
                     <TouchableHighlight onPress={this.alert} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                         <Image
                             style={{ width: 50, height: 50, }}
                             source={require('./fb.png')}
                         />
                     </TouchableHighlight>
-                    <Button title="register" onPress={this.goToRegister} />
                 </View>
 
             </View >
         )
+        
     }
+
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    input: {
+        width:'90%',
+        margin: 15,
+        height: 40,
+        borderColor: '#696969',
+        borderWidth: 1
+     },
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#ddd'
+    }
+  });
