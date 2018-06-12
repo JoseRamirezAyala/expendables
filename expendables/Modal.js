@@ -3,7 +3,9 @@ import { StyleSheet, Modal, Text, TouchableHighlight, View, TextInput, Button, L
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import ActionSheet from 'react-native-actionsheet';
-
+import {getFirebase} from './Firebase';
+var firebase = getFirebase();
+var db = firebase.database();
 export default class TransactionModal extends React.Component {
     constructor(props) {
         super(props)
