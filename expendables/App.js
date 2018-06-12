@@ -1,20 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert,SafeAreaView } from 'react-native';
-import firebase from 'firebase';
+import {getFirebase} from './Firebase';
 import Login from "./Login";
 import Register from "./Register";
 import Home from './Home';
-
-var config = {
-  apiKey: "AIzaSyAAqOZ2dmwB9OIU49xwTYpRpqmVQFQCUNw",
-  authDomain: "expenses-1308a.firebaseapp.com",
-  databaseURL: "https://expenses-1308a.firebaseio.com",
-  projectId: "expenses-1308a",
-  storageBucket: "expenses-1308a.appspot.com",
-  messagingSenderId: "234807118736"
-};
-firebase.initializeApp(config);
+var firebase = getFirebase();
 var db = firebase.database();
+console.log(firebase);
 export default class Main extends React.Component {
   constructor(props) {
     super(props)
@@ -53,7 +45,7 @@ export default class Main extends React.Component {
           email: res.user.email
         }
         db.ref().child('users').push(user);
-
+        
         this.setState({ logged: true });
 
 
@@ -77,7 +69,8 @@ export default class Main extends React.Component {
     firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
       this.setState({ logged: true });
       db.ref('/users').once('value').then(res => {
-
+          var result = res.val();
+          console.log(result);
       });
     }).catch(error => {
       // Handle Errors here.

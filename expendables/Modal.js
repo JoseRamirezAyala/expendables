@@ -15,18 +15,23 @@ export default class TransactionModal extends React.Component {
             date: "2016-05-15",
             txtAmount: "0.0",
             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-            category : "Choose Category",
-            categories : ["General","Food","School","Transportation" ]
+            category: "Choose Category",
+            categories: ["General", "Food", "School", "Transportation"]
         };
         this.setModalVisible = this.setModalVisible.bind(this);
         this.incomeChecked = this.incomeChecked.bind(this);
         this.expenseChecked = this.expenseChecked.bind(this);
+        this.addTransaction = this.addTransaction.bind(this);
     }
     showActionSheet = () => {
         this.ActionSheet.show()
-      }
+    }
 
-
+    addTransaction()
+    {
+        
+        db.ref().child('Transaction').push()
+    }
     setModalVisible() {
         this.props.setModalInvisible();
     }
@@ -51,7 +56,7 @@ export default class TransactionModal extends React.Component {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
-                        <Text style={{fontSize:28}}>Add Transaction </Text>
+                        <Text style={{ fontSize: 28 }}>Add Transaction </Text>
                         <DatePicker
                             style={{ width: 200 }}
                             date={this.state.date}
@@ -86,14 +91,14 @@ export default class TransactionModal extends React.Component {
                                 checked={this.state.checked2}
                             />
                         </View>
-                        <Text style={{fontSize : 28}} onPress={this.showActionSheet}>{this.state.category}</Text>
+                        <Text style={{ fontSize: 28 }} onPress={this.showActionSheet}>{this.state.category}</Text>
                         <ActionSheet
                             ref={o => this.ActionSheet = o}
                             title={'Which one do you like ?'}
                             options={this.state.categories}
-                            onPress={(index) => { this.setState({category: this.state.categories[index]}) }}
+                            onPress={(index) => { this.setState({ category: this.state.categories[index] }) }}
                         />
-                        <Button title="Ok" onPress={this.setModalVisible} />
+                        <Button title="Add" onPress={this.setModalVisible} />
                         <Button title="Cancel" onPress={this.setModalVisible} />
                     </View>
                 </View>
