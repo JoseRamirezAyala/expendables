@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Modal, Text, TouchableHighlight, View, TextInput, Button, ListView} from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, View, TextInput, Button, ListView,Alert} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import ActionSheet from 'react-native-actionsheet';
@@ -58,7 +58,10 @@ export default class TransactionModal extends React.Component {
     addTransaction()
     {
         if(this.state.category === "Click to choose a Category"){
-
+            Alert.alert("Error", "Please choose a category");
+        }
+        if(this.state.txtAmount < 0 || this.state.txtAmount ==='0.0' ){
+            Alert.alert("Error", "Please insert a valid amount");
         }
         else {
                   db.ref().child('transactions').push().set({
@@ -90,22 +93,22 @@ export default class TransactionModal extends React.Component {
                 onRequestClose={() => {
                     alert('Modal has been closed.');
                 }}>
-                <View style={{ marginTop: 200 }}>
+                <View style={{ marginTop: '12%' }}>
                     <View style={{
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
                     
-                        <Text style={{ fontSize: 28 }}>Add Transaction </Text>
+                        <Text style={{ fontSize: 28, marginBottom:'12%' }}>Add Transaction </Text>
                         <DatePicker
-                            style={{ width: 200 }}
+                            style={{ width: 200, alignSelf:'flex-start' }}
                             date={this.state.date}
                             mode="date"
                             placeholder="select date"
                             format="YYYY-MM-DD"
                             minDate="2016-05-01"
-                            maxDate="2016-06-01"
+                            maxDate="2030-12-12"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
@@ -121,9 +124,10 @@ export default class TransactionModal extends React.Component {
                             }}
                             onDateChange={(date) => { this.setState({ date: date }) }}
                         />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text>Amount</Text>
                         <TextInput style={styles.input} placeholder="Amount" onChangeText={(txtAmount) => this.setState({ txtAmount })} />
-
+</View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                             <CheckBox onPress={this.incomeChecked}
@@ -142,7 +146,7 @@ export default class TransactionModal extends React.Component {
                             options={this.state.categories}
                             onPress={(index) => { this.setState({ category: this.state.categories[index] }) }}
                         />
-                        <Button title="Add" onPress={this.addTransaction} />
+                        <Button style={{marginTop:'10%'}} title="Add" onPress={this.addTransaction} />
                         <Button title="Cancel" onPress={this.setModalVisible} />
                     </View>
                 </View>
@@ -161,8 +165,8 @@ const styles = StyleSheet.create({
         height: 44,
     },
     input: {
-        width:'90%',
-        margin: 15,
+        width:'70%',
+       margin: 15,
         height: 40,
         borderColor: '#696969',
         borderWidth: 1

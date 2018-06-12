@@ -4,6 +4,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import Tabbar from 'react-native-tabbar-bottom';
 import ActionButton from 'react-native-action-button';
 import Transactions from './Transactions';
+import Settings from './Settings';
 import TransactionModal from './Modal';
 export default class Home extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class Home extends React.Component {
         }
     this.addTransaction = this.addTransaction.bind(this);
     this.setModalInvisible = this.setModalInvisible.bind(this);
+    this.logOut = this.logOut.bind(this);
 
 }
 setModalInvisible() {
@@ -20,6 +22,9 @@ setModalInvisible() {
 }
 addTransaction() {
     this.setState({ modalVisible: true });
+}
+logOut(){
+    this.props.signOutUser();
 }
 
     normal() {
@@ -31,7 +36,8 @@ addTransaction() {
                 }
                 {this.state.page === "Transactions" && <Transactions />}
                 {this.state.page === "Stats" && <Text>Coming soon</Text>}
-                {this.state.page === "Settings" && <Text>Coming soon</Text>}
+                {this.state.page === "Settings" && <Settings logOut={this.logOut}/>}
+                }/>}
                 <ActionButton
                     buttonColor="rgba(231,76,60,1)"
                     style={styles.actionButton}

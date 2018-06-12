@@ -17,7 +17,11 @@ export default class Login extends React.Component {
     }
     register() {
         console.log("entro a esto");
-        this.props.normalRegister(this.state.txtNick, this.state.txtMail, this.state.txtPassword1);
+        if(this.state.txtPassword1 != this.state.txtPassword2){
+        Alert.alert("Error","Password does not match");
+        }
+        else
+            this.props.normalRegister(this.state.txtNick, this.state.txtMail, this.state.txtPassword1);
     }
     cancel() {
         this.props.cancelRegister();
@@ -33,14 +37,23 @@ export default class Login extends React.Component {
 
                 }}>
                 <Text>Register</Text>
-                <TextInput placeholder="Nick" onChangeText={(txtNick) => this.setState({ txtNick })} style={{ width: "100%" }} />
-                <TextInput placeholder="mail" onChangeText={(txtMail) => this.setState({ txtMail })} style={{ width: "100%" }} />
-                <TextInput placeholder="Password " onChangeText={(txtPassword1) => this.setState({ txtPassword1 })} style={{ width: "100%" }} />
-                <TextInput placeholder="Password" onChangeText={(txtPassword2) => this.setState({ txtPassword2 })} style={{ width: "100%" }} />
-                <Button onPress={this.register} title="register" />
-                <Button onPress={this.cancel} title="cancel" />
+                <TextInput placeholder="Nick" onChangeText={(txtNick) => this.setState({ txtNick })} style={styles.input} />
+                <TextInput placeholder="Email" onChangeText={(txtMail) => this.setState({ txtMail })} style={ styles.input} />
+                <TextInput placeholder="Password " onChangeText={(txtPassword1) => this.setState({ txtPassword1 })} style={styles.input} />
+                <TextInput placeholder="Password" onChangeText={(txtPassword2) => this.setState({ txtPassword2 })} style={styles.input} />
+                <Button onPress={this.register} title="Create an account" />
+                <Button onPress={this.cancel} title="Cancel" />
             </ View>
         )
     }
 
 }
+const styles = StyleSheet.create({
+    input: {
+        width:'90%',
+       margin: 15,
+        height: 40,
+        borderColor: '#696969',
+        borderWidth: 1
+     },
+})

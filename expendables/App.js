@@ -27,6 +27,7 @@ export default class Main extends React.Component {
     this.login = this.login.bind(this);
     this.normalRegister = this.normalRegister.bind(this);
     this.cancelRegister = this.cancelRegister.bind(this);
+    this.signOutUser = this.signOutUser.bind(this);
   }
   goToRegister() {
     this.setState({ registerWindow: true });
@@ -34,7 +35,16 @@ export default class Main extends React.Component {
   cancelRegister() {
     this.setState({ registerWindow: false });
   }
-
+   signOutUser(){
+      firebase.auth().signOut()
+      .then(res => {
+        this.setState({ logged: false })
+      })
+      .catch(function(error) {
+        
+        console.log(error);
+      });
+  }
   normalRegister(nick, email, password) {
 
     if (email != undefined && email != null && email != "") {
@@ -108,7 +118,7 @@ export default class Main extends React.Component {
   loggedIn() {
     return (
       <SafeAreaView style={styles.safeArea}>
-      <Home />
+      <Home  signOutUser={this.signOutUser} />
       </SafeAreaView>
     );
   }
