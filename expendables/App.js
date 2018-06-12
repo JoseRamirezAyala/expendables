@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert,SafeAreaView } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import {getFirebase} from './Firebase';
 import Login from "./Login";
 import Register from "./Register";
@@ -65,13 +66,18 @@ export default class Main extends React.Component {
       });
     }
   }
+   async storeUser(user){
+    try {
+      await AsyncStorage.setItem('@CurrentUser:key', user);
+    } catch (error) {
+      // Error saving data
+    }
+  }
   login(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
       this.setState({ logged: true });
-      db.ref('/users').once('value').then(res => {
-          var result = res.val();
-          console.log(result);
-      });
+      this.storeUser(res.user.uid);
+
     }).catch(error => {
       // Handle Errors here.
       var errorCode = error.code;

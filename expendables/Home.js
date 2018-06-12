@@ -4,15 +4,25 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import Tabbar from 'react-native-tabbar-bottom';
 import ActionButton from 'react-native-action-button';
 import Transactions from './Transactions';
+import TransactionModal from './Modal';
 export default class Home extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             page: "Transactions",
         }
-    }
+    this.addTransaction = this.addTransaction.bind(this);
+    this.setModalInvisible = this.setModalInvisible.bind(this);
 
-    render() {
+}
+setModalInvisible() {
+    this.setState({ modalVisible: false })
+}
+addTransaction() {
+    this.setState({ modalVisible: true });
+}
+
+    normal() {
         return (
             <View style={styles.container}>
                 {
@@ -23,9 +33,11 @@ export default class Home extends React.Component {
                 {this.state.page === "Stats" && <Text>Coming soon</Text>}
                 {this.state.page === "Settings" && <Text>Coming soon</Text>}
                 <ActionButton
-  buttonColor="rgba(231,76,60,1)"
-  onPress={() => { console.log("hi")}}
-/>
+                    buttonColor="rgba(231,76,60,1)"
+                    style={styles.actionButton}
+                    onPress={this.addTransaction}
+                    offsetY = {100}
+                    />
                 <Tabbar
                     stateFunc={(tab) => {
                         this.setState({ page: tab.page })
@@ -50,10 +62,25 @@ export default class Home extends React.Component {
             </View>
         );
     }
+    showModal() {
+        return (
+            <TransactionModal setModalInvisible={this.setModalInvisible} />
+        )
+    }
+    render() {
+        if (this.state.modalVisible) {
+            return this.showModal();
+        } else {
+            return this.normal();
+        }
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    actionButton: {
+       
     }
 });
