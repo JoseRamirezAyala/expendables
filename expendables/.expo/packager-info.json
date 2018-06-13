@@ -1,5 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
+<<<<<<< Updated upstream
   "packagerPid": 85513
+=======
+  "packagerPid": 15022
+>>>>>>> Stashed changes
 }

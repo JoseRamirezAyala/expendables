@@ -47,7 +47,7 @@ export default class Daily extends React.Component {
             this.filterCurrentMonth();
         })
     }
-    filterCurrentMonth = () => {
+    filterCurrentMonth= () => {
         for (item in this.state.fullArray) {
             var transaction = this.state.fullArray[item];
             var date_split = transaction.date.split('-');
