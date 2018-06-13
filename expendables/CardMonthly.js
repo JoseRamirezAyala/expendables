@@ -15,14 +15,14 @@ export default class CardMonthly extends React.Component {
                 borderColor: '#696969',
                 borderWidth: 1
             }}>
-                <Text>Month</Text>
+                <Text>{this.props.month}</Text>
                 <View style={{
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
                     <Text>Income</Text>
-                    <Text>------</Text>
+                    <Text>{this.props.income}</Text>
                 </View>
                 <View style={{
                     flexDirection: 'column',
@@ -30,7 +30,7 @@ export default class CardMonthly extends React.Component {
                     alignItems: 'center',
                 }}>
                     <Text>Expense</Text>
-                    <Text>------</Text>
+                    <Text>{this.props.expense}</Text>
                 </View>
             </View>
         )

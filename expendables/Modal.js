@@ -32,12 +32,13 @@ export default class TransactionModal extends React.Component {
 
     ShowCurrentDate = () => {
 
-        var date = new Date().getDate();
-        console.log(date);
-        var month = new Date().getMonth() + 1;
-        var year = new Date().getFullYear();
-        var full = year + '-' + month + '-' + date;
-        this.setState({ date: full })
+        var MyDate = new Date()
+        MyDateString = (
+            MyDate.getFullYear()  + '-' 
+            + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
+            +('0' + MyDate.getDate()).slice(-2) )
+
+        this.setState({ date: MyDateString })
 
     }
     componentWillMount() {
