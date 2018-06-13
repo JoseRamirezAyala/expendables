@@ -14,17 +14,23 @@ export default class Weekly extends React.Component {
             {
                 userKey: null,
                 modalVisible: false,
-                weeklyArray: [],
+                IncomeWeeklyArray: [],
+                ExpenseWeeklyArray: [],
+                TransactionsArray: [],
                 fullArray: [],
-                weeks: []
+                weeks: [],
             }
         this.getWeeklyTransactions = this.getWeeklyTransactions.bind(this);
         this.getWeeksInMonth = this.getWeeksInMonth.bind(this);
+        this.filterWeeks = this.filterWeeks.bind(this);
+        var income = 0;
+        var expense = 0;
+        var arrf = [];
     }
     componentWillMount() {
         this.getUser();
         this.getWeeklyTransactions();
-        this.getWeeksInMonth();
+
     }
     async getUser() {
         try {
@@ -36,6 +42,7 @@ export default class Weekly extends React.Component {
 
     }
     getWeeksInMonth = () => {
+        this.state.weeks = [];
         var date = new Date();
         var weeks = [],
             firstDate = new Date(date.getFullYear(), date.getMonth() + 1, 1),
@@ -52,30 +59,68 @@ export default class Weekly extends React.Component {
                 end = numDays;
         }
         this.state.weeks = weeks;
-        console.log(this.state.weeks);
+
     }
     getWeeklyTransactions = () => {
+
         db.ref('transactions/').on('value', snapshot => {
-            this.state.fullArray = [];
+            var array = [];
             var res = snapshot.val();
             for (item in res) {
                 var transaction = res[item];
                 if (this.state.userKey == transaction.user) {
-                    this.state.fullArray.push(transaction);
+                    array.push(transaction);
                 }
 
             }
-            
+            this.state.fullArray = array;
+            this.getWeeksInMonth();
+            this.filterWeeks();
         })
+    }
+    filterWeeks = () => {
+        this.state.TransactionsArray = [];
+        for (item in this.state.weeks) {
+            var week = this.state.weeks[item];
+            for (item2 in this.state.fullArray) {
+                var transaction = this.state.fullArray[item2];
+                var date_split = transaction.date.split('-');
+                if (new Date().getMonth() + 1 == parseInt(date_split[1])) {
+                    var day = parseInt(date_split[2]);
+                    if (day >= week.start && day < week.end) {
+                        var week_transaction =
+                            {
+                                start: week.start,
+                                end: week.end,
+                                amount: parseFloat(transaction.amount),
+                                income: transaction.income,
+                                expende: transaction.expense,
+                                week_index: item
+                            };
+                        this.state.TransactionsArray.push(week_transaction);
+
+
+                    }
+                }
+            }
+
+        }
+        this.setState({ TransactionsArray: this.state.TransactionsArray });
+    }
+    eachWeeklyCard(w, i) {
+        var range = w.start + " - " + w.end;
+        if (w.income) {
+            return <CardWeekly key={i} index={i} week={range} income={w.amount} expense={0}  ></CardWeekly>
+        } else {
+            return <CardWeekly key={i} index={i} week={range} income={0} expense={w.amount}  ></CardWeekly>
+        }
     }
     render() {
         return (
             <View>
 
                 <Text style={{ fontSize: 28 }}>Weekly</Text>
-                <CardWeekly />
-                <CardWeekly />
-                <CardWeekly />
+                {this.state.TransactionsArray.map(this.eachWeeklyCard)}
             </View>
         )
     }
