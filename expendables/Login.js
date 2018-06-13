@@ -39,12 +39,6 @@ export default class Login extends React.Component {
                     <TextInput onChangeText={(txtPassword) => this.setState({ txtPassword })} style={styles.input} secureTextEntry={true} placeholder="password" />
                     <Button title="Log-In" onPress={this.login} />
                     <Button title="Don't have an account yet? Click here to create one" onPress={this.goToRegister} />
-                    <TouchableHighlight onPress={this.alert} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                        <Image
-                            style={{ width: 50, height: 50, }}
-                            source={require('./fb.png')}
-                        />
-                    </TouchableHighlight>
                 </View>
 
             </View >
