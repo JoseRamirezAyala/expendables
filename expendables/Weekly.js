@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
 import TransactionModal from './Modal';
+import CardWeekly from './CardWeekly';
 export default class Weekly extends React.Component {
     constructor(props) {
         super(props)
@@ -15,7 +16,10 @@ export default class Weekly extends React.Component {
         return (
             <View>
 
-                <Text>Weekly</Text>
+                <Text style={{fontSize: 28}}>Weekly</Text>
+                <CardWeekly />
+                <CardWeekly />
+                <CardWeekly />
             </View>
         )
     }
