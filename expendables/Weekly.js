@@ -15,14 +15,16 @@ export default class Weekly extends React.Component {
                 userKey: null,
                 modalVisible: false,
                 weeklyArray: [],
-                fullArray: []
+                fullArray: [],
+                weeks: []
             }
         this.getWeeklyTransactions = this.getWeeklyTransactions.bind(this);
-
+        this.getWeeksInMonth = this.getWeeksInMonth.bind(this);
     }
     componentWillMount() {
         this.getUser();
         this.getWeeklyTransactions();
+        this.getWeeksInMonth();
     }
     async getUser() {
         try {
@@ -33,6 +35,25 @@ export default class Weekly extends React.Component {
         }
 
     }
+    getWeeksInMonth = () => {
+        var date = new Date();
+        var weeks = [],
+            firstDate = new Date(date.getFullYear(), date.getMonth() + 1, 1),
+            lastDate = new Date(date.getFullYear(), date.getMonth() + 2, 0),
+            numDays = lastDate.getDate();
+
+        var start = 1;
+        var end = 7 - firstDate.getDay();
+        while (start <= numDays) {
+            weeks.push({ start: start, end: end });
+            start = end + 1;
+            end = end + 7;
+            if (end > numDays)
+                end = numDays;
+        }
+        this.state.weeks = weeks;
+        console.log(this.state.weeks);
+    }
     getWeeklyTransactions = () => {
         db.ref('transactions/').on('value', snapshot => {
             this.state.fullArray = [];
@@ -42,9 +63,9 @@ export default class Weekly extends React.Component {
                 if (this.state.userKey == transaction.user) {
                     this.state.fullArray.push(transaction);
                 }
-                
+
             }
-            console.log(this.state.fullArray);
+            
         })
     }
     render() {
