@@ -23,7 +23,7 @@ export default class CardDaily extends React.Component {
                     <Text>{this.props.category}</Text>
                 </View>
                 <View>
-                    <Text>{this.props.amount}</Text>
+                    <Text style={{color: this.props.color}}>{this.props.amount}</Text>
                 </View>
             </View>
         )

@@ -49,6 +49,7 @@ export default class Main extends React.Component {
     if (email != undefined && email != null && email != "") {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(res => {
         console.log(res);
+        this.storeUser(res.user.uid);
         var user = {
           authid: res.user.uid,
           nick: nick,

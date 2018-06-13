@@ -13,7 +13,8 @@ export default class Daily extends React.Component {
             {
                 modalVisible: false,
                 fullArray: [],
-                monthArray: []
+                monthArray: [],
+                total : 0
             }
         this.getDailyTransactions = this.getDailyTransactions.bind(this);
         this.eachDailyCard = this.eachDailyCard.bind(this);
@@ -47,22 +48,34 @@ export default class Daily extends React.Component {
             this.filterCurrentMonth();
         })
     }
-    filterCurrentMonth= () => {
+    filterCurrentMonth = () => {
+        var total = 0;
         for (item in this.state.fullArray) {
             var transaction = this.state.fullArray[item];
             var date_split = transaction.date.split('-');
+
             if (new Date().getMonth() + 1 == parseInt(date_split[1])) {
                 console.log(transaction);
+                if(transaction.income)
+                {
+                    total += parseFloat(transaction.amount);
+                }else
+                {
+                    total -= parseFloat(transaction.amount);
+                }
                 this.state.monthArray.push(transaction);
             }
         }
-        this.setState({monthArray : this.state.monthArray});
+        this.setState({total : total});
+        this.setState({ monthArray: this.state.monthArray });
     }
-    eachDailyCard(d,i)
-    {
-        return(
-             <CardDaily key={i} index={i} day={d.date} category={d.category} amount={"$" +d.amount}  ></CardDaily>
-        )
+    eachDailyCard(d, i) {
+        if (d.income) {
+            return <CardDaily color={'#2427b4'} key={i} index={i} day={d.date} category={d.category} amount={"$" + d.amount}  ></CardDaily>
+        } else {
+            return <CardDaily color={'#FF0000'} key={i} index={i} day={d.date} category={d.category} amount={"$" + d.amount}  ></CardDaily>
+        }
+
     }
     render() {
         return (
@@ -74,6 +87,7 @@ export default class Daily extends React.Component {
 
                 <Text style={{ fontSize: 28 }}>Daily</Text>
                 {this.state.monthArray.map(this.eachDailyCard)}
+                <Text style={{paddingTop:50, fontSize: 20}}>Total: ${this.state.total}</Text>
             </View>
         )
     }

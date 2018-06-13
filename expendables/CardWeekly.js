@@ -22,7 +22,7 @@ export default class CardWeekly extends React.Component {
                     alignItems: 'center',
                 }}>
                     <Text>Income</Text>
-                    <Text>{this.props.income}</Text>
+                    <Text style={{color : '#2427b4'}}>{this.props.income}</Text>
                 </View>
                 <View style={{
                     flexDirection: 'column',
@@ -30,7 +30,7 @@ export default class CardWeekly extends React.Component {
                     alignItems: 'center',
                 }}>
                     <Text>Expense</Text>
-                    <Text>{this.props.expense}</Text>
+                    <Text style={{color : '#FF0000'}}>{this.props.expense}</Text>
                 </View>
             </View>
         )
