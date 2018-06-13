@@ -61,7 +61,7 @@ export default class Daily extends React.Component {
     eachDailyCard(d,i)
     {
         return(
-             <CardDaily key={i} index={i} day={d.date} category={d.category} amount={d.amount}  ></CardDaily>
+             <CardDaily key={i} index={i} day={d.date} category={d.category} amount={"$" +d.amount}  ></CardDaily>
         )
     }
     render() {

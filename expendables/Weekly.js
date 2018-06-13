@@ -210,7 +210,7 @@ export default class Weekly extends React.Component {
     }
     eachWeeklyCard(w, i) {
         console.log(w);
-        return <CardWeekly key={i} index={i} week={w.week} income={w.income} expense={w.expense}  ></CardWeekly>
+        return <CardWeekly key={i} index={i} week={w.week} income={"$" +w.income} expense={"$" +w.expense}  ></CardWeekly>
 
     }
     render() {
