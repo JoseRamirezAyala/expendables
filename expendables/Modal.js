@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Modal, Text, TouchableHighlight, View, TextInput, Button, ListView,Alert} from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, View, TextInput, Button, ListView, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import ActionSheet from 'react-native-actionsheet';
 import { AsyncStorage } from 'react-native';
-import {getFirebase} from './Firebase';
+import { getFirebase } from './Firebase';
 var firebase = getFirebase();
 var db = firebase.database();
 export default class TransactionModal extends React.Component {
@@ -16,11 +16,12 @@ export default class TransactionModal extends React.Component {
             modalVisible: true,
             checked: true,
             checked2: false,
+            comment: "",
             date: "2016-05-15",
             txtAmount: "0.0",
             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
             category: "Click to choose a Category",
-            categories: ["General", "Food", "School", "Transportation"]
+            categories: ["Cancel","General", "Food", "School", "Transportation"]
         };
 
         this.setModalVisible = this.setModalVisible.bind(this);
@@ -29,51 +30,51 @@ export default class TransactionModal extends React.Component {
         this.addTransaction = this.addTransaction.bind(this);
     }
 
-    ShowCurrentDate=()=>{
- 
+    ShowCurrentDate = () => {
+
         var date = new Date().getDate();
         console.log(date);
         var month = new Date().getMonth() + 1;
         var year = new Date().getFullYear();
-        var full = year + '-' + month +'-' + date;
-        this.setState({date:full})
-   
-       }
-    componentWillMount(){
+        var full = year + '-' + month + '-' + date;
+        this.setState({ date: full })
+
+    }
+    componentWillMount() {
         this.getUser();
         this.ShowCurrentDate();
     }
     showActionSheet = () => {
         this.ActionSheet.show()
     }
-    async getUser(){
+    async getUser() {
         try {
             const value = await AsyncStorage.getItem('@CurrentUser:key');
-            this.setState({userKey: value});
-          } catch (error) {
+            this.setState({ userKey: value });
+        } catch (error) {
             console.log("Error retrieving data" + error);
-          }
-        
+        }
+
     }
-    addTransaction()
-    {
-        if(this.state.category === "Click to choose a Category"){
+    addTransaction() {
+        if (this.state.category === "Click to choose a Category") {
             Alert.alert("Error", "Please choose a category");
         }
-        if(this.state.txtAmount < 0 || this.state.txtAmount ==='0.0' ){
+        if (this.state.txtAmount < 0 || this.state.txtAmount === '0.0') {
             Alert.alert("Error", "Please insert a valid amount");
         }
         else {
-                  db.ref().child('transactions').push().set({
-                    amount: this.state.txtAmount,
-                    date: this.state.date,
-                    income: this.state.checked,
-                    expense: this.state.checked2,
-                    category: this.state.category,
-                    user: this.state.userKey
-                 });
-                 this.setModalVisible;
-                }
+            db.ref().child('transactions').push().set({
+                amount: this.state.txtAmount,
+                date: this.state.date,
+                income: this.state.checked,
+                expense: this.state.checked2,
+                category: this.state.category,
+                comment: this.state.comment,
+                user: this.state.userKey
+            });
+            this.props.setModalInvisible();
+        }
     }
     setModalVisible() {
         this.props.setModalInvisible();
@@ -99,10 +100,12 @@ export default class TransactionModal extends React.Component {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
-                    
-                        <Text style={{ fontSize: 28, marginBottom:'12%' }}>Add Transaction </Text>
-                        <DatePicker
-                            style={{ width: 200, alignSelf:'flex-start' }}
+
+                        <Text style={{ fontSize: 28, marginBottom: '12%' }}>Add Transaction </Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.input2} >Date</Text>
+                            <DatePicker
+                            style={styles.input}
                             date={this.state.date}
                             mode="date"
                             placeholder="select date"
@@ -111,23 +114,33 @@ export default class TransactionModal extends React.Component {
                             maxDate="2030-12-12"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 4,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    marginLeft: 36
-                                }
-                            }}
                             onDateChange={(date) => { this.setState({ date: date }) }}
                         />
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text>Amount</Text>
-                        <TextInput style={styles.input} placeholder="Amount" onChangeText={(txtAmount) => this.setState({ txtAmount })} />
-</View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.input2} >Amount</Text>
+                            <TextInput style={styles.input} onChangeText={(txtAmount) => this.setState({ txtAmount })} />
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.input2} >Comment</Text>
+                            <TextInput style={styles.input} onChangeText={(comment) => this.setState({ comment })} />
+                        </View>
+                       
+                        <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.input2} >Category</Text>
+                        <Text style={styles.input} onPress={this.showActionSheet}>{this.state.category}</Text>
+                       <ActionSheet
+                            ref={o => this.ActionSheet = o}
+                            title={'Which one do you like ?'}
+                            options={this.state.categories}
+                            cancelButtonIndex={0}
+                            onPress={(index) => { index == 0 ? '':this.setState({ category: this.state.categories[index] }) }}
+                        />
+                        </View>
+
+                                                
+
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                             <CheckBox onPress={this.incomeChecked}
@@ -139,14 +152,8 @@ export default class TransactionModal extends React.Component {
                                 checked={this.state.checked2}
                             />
                         </View>
-                        <Text style={{ fontSize: 28 }} onPress={this.showActionSheet}>{this.state.category}</Text>
-                        <ActionSheet
-                            ref={o => this.ActionSheet = o}
-                            title={'Which one do you like ?'}
-                            options={this.state.categories}
-                            onPress={(index) => { this.setState({ category: this.state.categories[index] }) }}
-                        />
-                        <Button style={{marginTop:'10%'}} title="Add" onPress={this.addTransaction} />
+
+                        <Button style={{ marginTop: '10%' }} title="Add" onPress={this.addTransaction} />
                         <Button title="Cancel" onPress={this.setModalVisible} />
                     </View>
                 </View>
@@ -165,10 +172,16 @@ const styles = StyleSheet.create({
         height: 44,
     },
     input: {
-        width:'70%',
-       margin: 15,
+        width: '70%',
         height: 40,
         borderColor: '#696969',
         borderWidth: 1
-     },
+    },
+    input2: {
+        width: '30%',
+        textAlignVertical: 'center',
+        height: 40,
+        borderColor: '#696969',
+        borderWidth: 1
+    },
 })
