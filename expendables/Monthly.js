@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
 import TransactionModal from './Modal';
+import CardMonthly from './CardMonthly';
 export default class Monthly extends React.Component {
     constructor(props) {
         super(props)
@@ -14,7 +15,10 @@ export default class Monthly extends React.Component {
     render() {
         return (
             <View>
-            <Text>Monthly</Text>
+            <Text style={{fontSize: 28}}>Monthly</Text>
+            <CardMonthly />
+            <CardMonthly />
+            <CardMonthly />
         </View>
         )
     }
