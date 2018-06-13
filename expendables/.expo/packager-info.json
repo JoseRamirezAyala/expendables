@@ -1,15 +1,5 @@
 {
-  "expoServerPort": 19000,
-<<<<<<< HEAD
-<<<<<<< refs/remotes/origin/sebastian-development
-  "packagerPort": 19001,
-  "packagerPid": 35588
-=======
-  "packagerPort": 19002,
-  "packagerPid": 5306
->>>>>>> Added Cards templates for each class
-=======
-  "packagerPort": 19002,
-  "packagerPid": 5306
->>>>>>> joche-development
+  "expoServerPort": 19001,
+  "packagerPort": 19003,
+  "packagerPid": 6514
 }

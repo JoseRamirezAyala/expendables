@@ -7,7 +7,6 @@ import Register from "./Register";
 import Home from './Home';
 var firebase = getFirebase();
 var db = firebase.database();
-console.log(firebase);
 export default class Main extends React.Component {
   constructor(props) {
     super(props)
