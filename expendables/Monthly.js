@@ -184,7 +184,7 @@ export default class Monthly extends React.Component {
         return (
             <View>
                 <Text style={{ fontSize: 28 }}>Monthly</Text>
-                {this.state.months.map(r => <CardMonthly month={r.month} income={r.income} expense={r.expense} />)}
+                {this.state.months.map((r,i) => <CardMonthly key={i} index={i} month={r.month} income={r.income} expense={r.expense} />)}
             </View>
         )
     }
