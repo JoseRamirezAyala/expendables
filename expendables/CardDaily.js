@@ -19,11 +19,11 @@ export default class CardDaily extends React.Component {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                 }}>
-                    <Text>Date</Text>
-                    <Text>Category</Text>
+                    <Text>{this.props.day}</Text>
+                    <Text>{this.props.category}</Text>
                 </View>
                 <View>
-                    <Text>Amount</Text>
+                    <Text>{this.props.amount}</Text>
                 </View>
             </View>
         )
