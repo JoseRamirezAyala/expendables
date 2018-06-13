@@ -38,7 +38,7 @@ export default class Monthly extends React.Component {
     }
     getMonthlyTransaction = () => {
 
-        db.ref().child('transactions').on('value', snapshot => {
+        db.ref().child('transactions').once('value', snapshot => {
             var jan_in = 0, jan_out = 0
             var feb_in = 0, feb_out = 0
             var march_in = 0, march_out = 0

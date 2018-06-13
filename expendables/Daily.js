@@ -33,7 +33,7 @@ export default class Daily extends React.Component {
     }
     getDailyTransactions = () => {
 
-        db.ref('transactions/').on('value', snapshot => {
+        db.ref('transactions/').once('value', snapshot => {
             var array = [];
             var res = snapshot.val();
             for (item in res) {

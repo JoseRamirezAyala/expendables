@@ -14,10 +14,9 @@ export default class Weekly extends React.Component {
             {
                 userKey: null,
                 modalVisible: false,
-                IncomeWeeklyArray: [],
-                ExpenseWeeklyArray: [],
                 TransactionsArray: [],
                 fullArray: [],
+                finalTransactions: [],
                 weeks: [],
             }
         this.getWeeklyTransactions = this.getWeeklyTransactions.bind(this);
@@ -42,7 +41,6 @@ export default class Weekly extends React.Component {
 
     }
     getWeeksInMonth = () => {
-        this.state.weeks = [];
         var date = new Date();
         var weeks = [],
             firstDate = new Date(date.getFullYear(), date.getMonth() + 1, 1),
@@ -58,12 +56,12 @@ export default class Weekly extends React.Component {
             if (end > numDays)
                 end = numDays;
         }
-        this.state.weeks = weeks;
+        this.setState({ weeks: weeks });
 
     }
     getWeeklyTransactions = () => {
 
-        db.ref('transactions/').on('value', snapshot => {
+        db.ref('transactions/').once('value', snapshot => {
             var array = [];
             var res = snapshot.val();
             for (item in res) {
@@ -73,7 +71,7 @@ export default class Weekly extends React.Component {
                 }
 
             }
-            this.state.fullArray = array;
+            this.setState({ fullArray: array });
             this.getWeeksInMonth();
             this.filterWeeks();
         })
@@ -105,22 +103,122 @@ export default class Weekly extends React.Component {
             }
 
         }
+        console.log(this.state.TransactionsArray);
         this.setState({ TransactionsArray: this.state.TransactionsArray });
+        this.finalArrayFilter();
+    }
+    finalArrayFilter() {
+        var array = [];
+        var week0 = {
+            week: "",
+            income: 0,
+            expense: 0
+        };
+        var week1 = {
+            week: "",
+            income: 0,
+            expense: 0
+        };
+        var week2 = {
+            week: "",
+            income: 0,
+            expense: 0
+        };
+        var week3 = {
+            week: "",
+            income: 0,
+            expense: 0
+        };
+        var week4 = {
+            week: "",
+            income: 0,
+            expense: 0
+        };
+        for (item in this.state.TransactionsArray) {
+            var transaction = this.state.TransactionsArray[item];
+            var range = transaction.start + " - " + transaction.end;
+            switch (parseInt(transaction.week_index)) {
+                case 0:
+                    week0.week = range;
+                    if (transaction.income) {
+                        week0.income += transaction.amount;
+
+                    } else {
+                        week0.expense += transaction.amount;
+                    }
+                    break;
+                case 1:
+                    week1.week = range;
+                    if (transaction.income) {
+                        week1.income += transaction.amount;
+
+                    } else {
+                        week1.expense += transaction.amount;
+                    }
+                    break;
+                case 2:
+                    week2.week = range;
+                    if (transaction.income) {
+                        week2.income += transaction.amount;
+
+                    } else {
+                        week2.expense += transaction.amount;
+                    }
+                    break;
+                case 3:
+                    week3.week = range;
+                    if (transaction.income) {
+                        week3.income += transaction.amount;
+
+                    } else {
+                        week3.expense += transaction.amount;
+                    }
+                    break;
+                case 4:
+                    week4.week = range;
+                    if (transaction.income) {
+                        week4.income += transaction.amount;
+
+                    } else {
+                        week4.expense += transaction.amount;
+                    }
+                    break;
+            }
+        }
+        if(week0.week != "")
+        {
+            this.state.finalTransactions[0] = week0;
+        }
+        if(week1.week != "")
+        {
+            this.state.finalTransactions[1] = week1;
+        }
+        if(week2.week != "")
+        {
+            this.state.finalTransactions[2] = week2;
+        }
+        if(week3.week != "")
+        {
+            this.state.finalTransactions[3] = week3;
+        }
+        if(week4.week != "")
+        {
+            this.state.finalTransactions[4] = week4;
+        }
+        this.setState({ finalTransactions: this.state.finalTransactions });
+
     }
     eachWeeklyCard(w, i) {
-        var range = w.start + " - " + w.end;
-        if (w.income) {
-            return <CardWeekly key={i} index={i} week={range} income={w.amount} expense={0}  ></CardWeekly>
-        } else {
-            return <CardWeekly key={i} index={i} week={range} income={0} expense={w.amount}  ></CardWeekly>
-        }
+        console.log(w);
+        return <CardWeekly key={i} index={i} week={w.week} income={w.income} expense={w.expense}  ></CardWeekly>
+
     }
     render() {
         return (
             <View>
 
                 <Text style={{ fontSize: 28 }}>Weekly</Text>
-                {this.state.TransactionsArray.map(this.eachWeeklyCard)}
+                {this.state.finalTransactions.map(this.eachWeeklyCard)}
             </View>
         )
     }
